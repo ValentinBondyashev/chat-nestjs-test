@@ -24,4 +24,14 @@ export class ContactController {
         }
         return res.status(HttpStatus.OK).json(result);
     }
+
+    @Post('add')
+    public async addNewContacts(@Request() req, @Response() res, @Body() contacts) {
+        const ownerId = req.infoFromToken.id;
+        const result = await this.service.addNewContacts(ownerId, contacts);
+        if (!result) {
+            return res.status(HttpStatus.BAD_REQUEST).json(result);
+        }
+        return res.status(HttpStatus.OK).json(result);
+    }
 }

@@ -7,18 +7,15 @@ export class MessageEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('varchar', {length: 100})
+    @Column()
     text: string;
-
-    @Column('varchar', {length: 20})
-    lastName: string;
 
     @Column('varchar', {length: 20})
     status: string;
 
     @ManyToOne(type => UserEntity, user => user.messages)
-    user: UserEntity[];
+    user: UserEntity;
 
     @ManyToOne(type => ChatEntity, chat => chat.messages)
-    chat: UserEntity[];
+    chat: ChatEntity;
 }

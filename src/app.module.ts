@@ -8,7 +8,7 @@ import { ChatModule } from './chat/chat.module';
 import { ConfigService } from './config/config.service';
 import { ConfigModule } from './config/config.module';
 import { ContactModule } from './contact/contact.module';
-import { TokenMiddleware } from './token.middleware';
+import { TokenMiddleware } from './middleware/token.middleware';
 
 @Module({
     imports: [TypeOrmModule.forRoot({

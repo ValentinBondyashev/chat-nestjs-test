@@ -15,4 +15,11 @@ export class ContactService extends TypeOrmCrudService<ContactEntity> {
             .where('contact.ownerId = :ownerId', {ownerId})
             .getMany();
     }
+
+    async addNewContacts(ownerId, contacts) {
+        return await Promise.all(
+            contacts.map(async (contactId) => {
+                await this.repo.save(ownerId, contactId);
+            }));
+    }
 }

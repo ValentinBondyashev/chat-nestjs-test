@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Request, Response } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Request, Response } from '@nestjs/common';
 import { Crud } from '@nestjsx/crud';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
@@ -28,6 +28,15 @@ export class UserController {
         const result = await this.service.login(user);
         if (result.error) {
             return res.status(HttpStatus.BAD_REQUEST).json(result.error);
+        }
+        return res.status(HttpStatus.OK).json(result);
+    }
+
+    @Get('filter/:filter')
+    public async getUsersWithFilter(@Response() res, @Body() user, @Param('filter') filter) {
+        const result = await this.service.getUsersWithFilter(filter);
+        if (!result) {
+            return res.status(HttpStatus.BAD_REQUEST).json(result);
         }
         return res.status(HttpStatus.OK).json(result);
     }

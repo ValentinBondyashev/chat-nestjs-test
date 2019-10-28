@@ -27,14 +27,14 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
             language: user.language,
             avatar: user.avatar,
         };
-        return this.repo.find({
-            join: {
-                alias: 'user',
-                leftJoinAndSelect: {
-                    chats: 'user.chats',
-                },
-            },
-        });
+        const createdUser = await this.repo.save(newUser);
+        const token: string = jwt.sign({
+            username: createdUser.username,
+            theme: createdUser.theme,
+            language: createdUser.language,
+            id: createdUser.id,
+        }, this.salt, {expiresIn: '100h'});
+        return {token, message: 'Registration successful'};
     }
 
     async login(user) {
@@ -47,12 +47,20 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
             return {error: 'Password is incorrect please try again'};
         }
         const token: string = jwt.sign({
+            firstName: availableUser.firstName,
+            lastName: availableUser.lastName,
             username: availableUser.username,
             theme: availableUser.theme,
             language: availableUser.language,
             id: availableUser.id,
         }, this.salt, {expiresIn: '100h'});
         return {token, message: 'Login successful'};
+    }
+
+    async getUsersWithFilter(filter) {
+        return await this.repo.createQueryBuilder('user')
+            .where('user.firstName like :filter', {filter: '%' + filter + '%'})
+            .getMany();
     }
 
 }
