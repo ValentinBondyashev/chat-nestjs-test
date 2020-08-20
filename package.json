@@ -34,7 +34,7 @@
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "latest",
     "@types/jwt-decode": "^2.2.1",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.1",
     "dotenv": "^8.1.0",
